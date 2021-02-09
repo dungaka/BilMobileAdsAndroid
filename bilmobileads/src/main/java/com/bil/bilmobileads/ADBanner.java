@@ -52,6 +52,7 @@ public class ADBanner implements Application.ActivityLifecycleCallbacks {
     private boolean isLoadBannerSucc = false;
     private boolean setDefaultBidType = true;
     private boolean isFetchingAD = false;
+    private Application application;
 
     public ADBanner(ViewGroup adView, final String placementStr) {
         if (adView == null || placementStr == null) {
@@ -71,7 +72,7 @@ public class ADBanner implements Application.ActivityLifecycleCallbacks {
         this.adUnitObj = PBMobileAds.getInstance().getAdUnitObj(this.placement);
         if (this.adUnitObj == null) {
             this.isFetchingAD = true;
-
+//            registerlifecycle();
             // Get AdUnit Info
             PBMobileAds.getInstance().getADConfig(this.placement, new ResultCallback<AdUnitObj, Exception>() {
                 @Override
@@ -83,9 +84,8 @@ public class ADBanner implements Application.ActivityLifecycleCallbacks {
                     PBMobileAds.getInstance().showCMP(new WorkCompleteDelegate() {
                         @Override
                         public void doWork() {
+                            application.registerActivityLifecycleCallbacks(ADBanner.this);
                             // Setup Application Delegate
-                            ((Activity) PBMobileAds.getInstance().getContextApp()).getApplication().registerActivityLifecycleCallbacks(ADBanner.this);
-
                             load();
                         }
                     });
@@ -102,6 +102,7 @@ public class ADBanner implements Application.ActivityLifecycleCallbacks {
             this.load();
         }
     }
+
 
     boolean processNoBids() {
         if (this.adUnitObj.adInfor.size() >= 2 && this.adFormatDefault == this.adUnitObj.defaultFormat) {

@@ -51,6 +51,7 @@ public class ADNativeStyle implements Application.ActivityLifecycleCallbacks {
     private boolean isLoadNativeSucc = false;
     private boolean setDefaultBidType = true;
     private boolean isFetchingAD = false;
+    private Application application;
 
     public ADNativeStyle(ViewGroup adView, final String placementStr) {
         if (adView == null || placementStr == null) {
@@ -70,6 +71,7 @@ public class ADNativeStyle implements Application.ActivityLifecycleCallbacks {
         this.adUnitObj = PBMobileAds.getInstance().getAdUnitObj(this.placement);
         if (this.adUnitObj == null) {
             this.isFetchingAD = true;
+//            registerlifecycle();
 
             // Get AdUnit Info
             PBMobileAds.getInstance().getADConfig(this.placement, new ResultCallback<AdUnitObj, Exception>() {
@@ -82,9 +84,8 @@ public class ADNativeStyle implements Application.ActivityLifecycleCallbacks {
                     PBMobileAds.getInstance().showCMP(new WorkCompleteDelegate() {
                         @Override
                         public void doWork() {
+                            application.registerActivityLifecycleCallbacks(ADNativeStyle.this);
                             // Setup Application Delegate
-                            ((Activity) PBMobileAds.getInstance().getContextApp()).getApplication().registerActivityLifecycleCallbacks(ADNativeStyle.this);
-
                             load();
                         }
                     });

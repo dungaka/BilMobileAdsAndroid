@@ -1,7 +1,6 @@
 package com.bil.bilmobileadsandroid;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +10,22 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bil.bilmobileads.ADBanner;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bil.bilmobileads.ADInterstitial;
 import com.bil.bilmobileads.ADNativeCustom;
-import com.bil.bilmobileads.ADNativeStyle;
 import com.bil.bilmobileads.ADNativeView;
 import com.bil.bilmobileads.ADRewarded;
 import com.bil.bilmobileads.PBMobileAds;
-import com.bil.bilmobileads.interfaces.AdDelegate;
 import com.bil.bilmobileads.interfaces.AdNativeDelegate;
 import com.bil.bilmobileads.interfaces.AdNativeVideoDelegate;
-import com.bil.bilmobileads.interfaces.AdRewardedDelegate;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ADBanner adBanner;
-    ADNativeStyle adNativeStyle;
+//    ADBanner adBanner;
+//    ADNativeStyle adNativeStyle;
     ADNativeCustom adNativeCustom;
     ADInterstitial adInterstitial;
     ADRewarded adRewarded;
@@ -59,36 +56,36 @@ public class MainActivity extends AppCompatActivity {
 
                 // Preload native ads (Max 5 request)
                 builderArrayList.add(builder);
-                PBMobileAds.getInstance().log("Total current Ads stored: " + adNativeCustom.numOfAds());
+//                PBMobileAds.getInstance().log("Total current Ads stored: " + adNativeCustom.numOfAds());
                 // Preload 2 native ads
                 if (adNativeCustom.numOfAds() < 2) {
-                    adNativeCustom.load();
+                    adNativeCustom.preload();
                 }
             }
         });
 
-        Button btnLoadFull = (Button) findViewById(R.id.loadFull);
+        Button btnLoadFull = findViewById(R.id.loadFull);
         btnLoadFull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adNativeCustom.load();
+                adNativeCustom.preload();
             }
         });
 
-        Button btnShowFull = (Button) findViewById(R.id.showFull);
+        Button btnShowFull = findViewById(R.id.showFull);
         btnShowFull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (adInterstitial != null) {
-                    adInterstitial.load();
+                    adInterstitial.preLoad();
                 }
 
                 if (adRewarded != null) {
-                    adRewarded.load();
+                    adRewarded.preLoad();
                 }
 
                 if (builderArrayList.size() <= 0) {
-                    PBMobileAds.getInstance().log("Native unavailable, load ad before show");
+//                    PBMobileAds.getInstance().log("Native unavailable, load ad before show");
                     return;
                 }
 
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 builderArrayList.remove(builder);
 
                 // Get View and setup content NativeAD
-                View nativeView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.native_ad_view, null);
+                @SuppressLint("InflateParams") View nativeView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.native_ad_view, null);
                 builder.setNativeView(nativeView)
                         .setHeadlineView((TextView) nativeView.findViewById(R.id.ad_headline))
                         .setBodyView((TextView) nativeView.findViewById(R.id.ad_body))
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onVideoEnd() {
                         super.onVideoEnd();
-                        PBMobileAds.getInstance().log("onVideoEnd");
+//                        PBMobileAds.getInstance().log("onVideoEnd");
                     }
                 });
 
