@@ -84,7 +84,7 @@ public class ADNativeStyle implements Application.ActivityLifecycleCallbacks {
                     PBMobileAds.getInstance().showCMP(new WorkCompleteDelegate() {
                         @Override
                         public void doWork() {
-                            application.registerActivityLifecycleCallbacks(ADNativeStyle.this);
+                            ((Activity) PBMobileAds.getInstance().getContextApp()).getApplication().registerActivityLifecycleCallbacks(ADNativeStyle.this);
                             // Setup Application Delegate
                             load();
                         }

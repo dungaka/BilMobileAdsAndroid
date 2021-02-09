@@ -84,7 +84,6 @@ public class ADBanner implements Application.ActivityLifecycleCallbacks {
                     PBMobileAds.getInstance().showCMP(new WorkCompleteDelegate() {
                         @Override
                         public void doWork() {
-                            application.registerActivityLifecycleCallbacks(ADBanner.this);
                             // Setup Application Delegate
                             load();
                         }
