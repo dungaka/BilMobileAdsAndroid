@@ -84,7 +84,6 @@ public class ADNativeStyle implements Application.ActivityLifecycleCallbacks {
                     PBMobileAds.getInstance().showCMP(new WorkCompleteDelegate() {
                         @Override
                         public void doWork() {
-                            ((Activity) PBMobileAds.getInstance().getContextApp()).getApplication().registerActivityLifecycleCallbacks(ADNativeStyle.this);
                             // Setup Application Delegate
                             load();
                         }
@@ -258,7 +257,6 @@ public class ADNativeStyle implements Application.ActivityLifecycleCallbacks {
     }
 
     public void destroy() {
-        ((Activity) PBMobileAds.getInstance().getContextApp()).getApplication().unregisterActivityLifecycleCallbacks(this);
 
         if (this.adUnit == null) return;
         PBMobileAds.getInstance().log(LogType.INFOR, "Destroy ADNativeStyle Placement: " + this.placement);

@@ -305,7 +305,6 @@ public class ADBanner implements Application.ActivityLifecycleCallbacks {
     }
 
     public void destroy() {
-        ((Activity) PBMobileAds.getInstance().getContextApp()).getApplication().unregisterActivityLifecycleCallbacks(this);
 
         if (this.adUnit == null) return;
         PBMobileAds.getInstance().log(LogType.INFOR, "Destroy ADBanner Placement: " + this.placement);
